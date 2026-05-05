@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#not push starters
+STARTERS/
+data_text/
+
+#vscode
+.vscode
+requirements.txt
