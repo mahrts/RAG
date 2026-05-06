@@ -14,11 +14,10 @@ def generate_response(openai_key: str, user_message: str, context: str,
     client = OpenAI(api_key=openai_key,
                     base_url="https://openai.vocareum.com/v1")
 
-    logger.info("Initiate prompt message")
-    system_prompt = (
-        "You are a helpful assistant. Use the provided context to answer "
-        "the user's question as accurately as possible. "
-    )
+    logger.info("Initiate prompt message, with the context")
+    system_prompt = f"""You are an expert at NASA. Use youre expertise to answer
+                     the user's question as accurately as possible, and using 
+                     the following context:\n {context}"""
 
     logger.info("Building message list")
     messages = []
@@ -27,12 +26,7 @@ def generate_response(openai_key: str, user_message: str, context: str,
         "content": system_prompt
     })
 
-    logger.info("Adding context")
-    if context:
-        messages.append({
-            "role": "system",
-            "content": f"Context:\n{context}"
-        })
+
 
     logger.info("Add conversation histroy")
     messages += conversation_history

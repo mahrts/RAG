@@ -223,4 +223,6 @@ data_text/
 
 #vscode
 .vscode
-requirements.txt
+
+#chromadb
+chroma_db_openai/

@@ -4,6 +4,7 @@ import os
 from LLMCLIENT.llm_client import generate_response
 
 def test_generate_response():
+    """testing generate_response"""
     key = os.getenv("OPENAI_API_KEY")
     api_key = os.getenv("OPENAI_API_KEY", str(key))
 
