@@ -27,24 +27,41 @@ missions = {"apollo11": [
                            "109-AAG_STS-51L_Mission_Audio_transcript.txt"
                           ]
             }
-
 def get_data():
     """Download NASA mission .txt data to local path."""
-    if not os.path.isdir(text_base_path):
-        os.mkdir(text_base_path)
+    success = True  # assume success unless something fails
 
-    for mission in list(missions.keys()):
+    try:
+        if not os.path.isdir(text_base_path):
+            os.mkdir(text_base_path)
 
-        if not os.path.isdir(text_base_path / mission):
-            os.mkdir(text_base_path / mission)
+        for mission in list(missions.keys()):
 
-        for file in missions[mission]:
-            file_url = base_url + mission + "/" + file
-            content = requests.get(file_url)
-            content.raise_for_status()
+            if not os.path.isdir(text_base_path / mission):
+                os.mkdir(text_base_path / mission)
 
-            with open(text_base_path / mission / file, "w", encoding="utf8") as f:
-                f.write(content.text)
+            for file in missions[mission]:
+                try:
+                    file_url = base_url + mission + "/" + file
+                    content = requests.get(file_url)
+                    content.raise_for_status()
+                    
+                    #avoid duplicating text
+                    file_path = text_base_path / mission / file
+                    if file_path.exists():
+                        file_path.unlink()
+
+                    with open(file_path, "w", encoding="utf8") as f:
+                        f.write(content.text)
+
+                except Exception:
+                    success = False
+
+    except Exception:
+        return False
+
+    return success
 
 if __name__ == "__main__":
-    get_data()
+    success = get_data()
+    print(success)
