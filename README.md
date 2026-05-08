@@ -18,7 +18,7 @@ export OPENAI_API_KEY=<your_open_api_key> #setting your sercet api key as env va
 pip install -r requirements.txt && pip install -e .
 ```
 
-Download and save the text data (This download all the .txt files here [data_text](https://github.com/udacity/cd13318-exercises-project/tree/main/Project-NASA-Mission-Intelligence-Starter/data_text))
+Download and save the text data (his downloads all the .txt files here: [data_text](https://github.com/udacity/cd13318-exercises-project/tree/main/Project-NASA-Mission-Intelligence-Starter/data_text))
 
 ```bash
 python src/DATA/data_text.py #This will download relevant documents to retrieve from.
