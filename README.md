@@ -27,9 +27,8 @@ Finally, the app can be opend with: (it should open here [http://localhost:8501/
 ```bash
 streamlit run chat.py # this open the app on browser automatically 
 ```
-
+## Project structure:
 ```bash
-#Folder structure
 ├── chat.py
 ├── README.md
 ├── requirements.txt
