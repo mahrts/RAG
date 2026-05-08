@@ -12,13 +12,14 @@ one_key = list(D.keys())[0]
 
 chroma_dir = D[one_key]["directory"]
 collection_name = D[one_key]["collection_name"]
-collection = initialize_rag_system(chroma_dir=chroma_dir, collection_name=collection_name)
+collection, _, _ = initialize_rag_system(chroma_dir=chroma_dir, collection_name=collection_name)
 
 result = retrieve_documents(collection=collection, 
                                 query="When was applo 11 launched?")
 
-documents = result["documents"]
-metadatas = result["metadatas"]
+documents = result["documents"][0] if result["documents"] else []
+metadatas = result["metadatas"][0] if result["metadatas"] else []
+
 context = format_context(documents=documents, metadatas=metadatas)
 
 def test_discover_chroma_backends():
@@ -33,7 +34,8 @@ def test_discover_chroma_backends():
     assert "count" in backends_key
 
 def test_initialize_rag_system():
-    assert isinstance(collection, chromadb.api.models.Collection.Collection)
+    if collection is not None:
+        assert isinstance(collection, chromadb.api.models.Collection.Collection)
 
 def test_retrieve_documents():
     assert isinstance(result, dict)

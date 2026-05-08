@@ -1,1 +1,57 @@
+## 🚀 NASA Intelligence Chat System
 
+A full Retrieval-Augmented Generation (RAG) pipeline built with Python that enables users to ask natural language questions about historic NASA missions using real mission transcripts and technical documents.
+
+This project combines semantic search, vector databases, large language models, and evaluation tooling to create an intelligent NASA mission assistant capable of answering questions grounded in archival mission data.
+
+## 🔄 Installation and Usage
+This app needs an opoenAI API_KEY.
+One can run the app locally with the following sequence commands
+
+```bash
+git clone https://github.com/mahrts/RAG
+cd RAG
+export OPENAI_API_KEY=<your_open_api_key> #setting your sercet api key as env varialbe 
+pip install -r requirements.txt && pip install -e .
+python src/DATA/data_text.py #This will download relevant documents to retrieve from.
+python src/EMBEDDiNG/embedding_pipeline.py #This cretes the local chromadb database.
+streamlit run chat.py # this open the app on browser automatically 
+```
+
+```bash
+#Folder structure
+├── chat.py
+├── README.md
+├── requirements.txt
+├── src
+│   ├── DATA
+│   │   ├── data_text.py #Create a data_text/ folder and download mission texts there.
+│   │   └── __init__.py
+│   ├── EMBEDDING
+│   │   ├── embedding_pipeline.py #Full RAG pipeline for the documents.
+│   │   └── __init__.py
+│   ├── LLMCLIENT
+│   │   ├── __init__.py
+│   │   └── llm_client.py #LLL to generate chats
+│   ├── RAGAS
+│   │   ├── __init__.py
+│   │   └── ragas_evaluator.py #RAGAS evaluator (bach and single message)
+|   |   |__ test_questions.json #Example of questions for evaluations
+│   └── RAGCLIENT
+│       ├── __init__.py
+│       └── rag_client.py #Relate rag system: documents and chromadb database.
+└── tests
+    ├── test_DATA.py
+    ├── test_EMBEDDING.py
+    ├── test_LLMCLIENT.py
+    └── test_RAGCLIENT.py
+```
+
+### 🙌 Acknowledgements
+This project is part of [the Udacity Generative AI Nanodegree](https://www.udacity.com/course/generative-ai--nd608) Program.
+
+## References: 
+
+RAG Paper: [https://arxiv.org/abs/2005.11401](https://arxiv.org/abs/2005.11401)
+
+RAGAS Paper: [https://arxiv.org/abs/2309.15217](https://arxiv.org/abs/2309.15217)

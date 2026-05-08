@@ -217,8 +217,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-#not push starters
-STARTERS/
+#not documents
 data_text/
 
 #vscode
@@ -226,3 +225,14 @@ data_text/
 
 #chromadb
 chroma_db_openai/
+chroma_db/
+
+
+# Secrets
+.env
+.env.*
+secrets.json
+*.pem
+
+#in progress files:
+test_EMBEDDING.py

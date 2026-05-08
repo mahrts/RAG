@@ -42,7 +42,7 @@ def discover_chroma_backends() -> Dict[str, Dict[str, str]]:
                         "collection_name": collection.name,
                         "display_name": f"{directory.name} / {collection.name} ({count} docs)",
                         "count": count}
-                    
+                
                 except Exception as inner_error:
                     # Handle per-collection failure
                     key = f"{directory.name}_error_{collection.name}"
@@ -51,7 +51,7 @@ def discover_chroma_backends() -> Dict[str, Dict[str, str]]:
                         "collection_name": collection.name,
                         "display_name": f"{directory.name} / {collection.name} (error: {str(inner_error)[:50]})",
                         "count": "error"}
-    
+ 
         except Exception as e:
             # Handle directory-level failure
             key = f"{directory.name}_unavailable"
@@ -77,14 +77,21 @@ def initialize_rag_system(chroma_dir: str, collection_name: str):
     Returns:
         chromadb.Collection: An object used for querying and managing documents.
     """
-    client = chromadb.PersistentClient(
-        path=chroma_dir,
-        settings=Settings(anonymized_telemetry=False,
-                          allow_reset=True)
-    )
+    try:
+        client = chromadb.PersistentClient(
+            path=chroma_dir,
+            settings=Settings(
+                anonymized_telemetry=False,
+                allow_reset=True
+            )
+        )
 
-    collection = client.get_collection(name=collection_name)
-    return collection
+        collection = client.get_collection(name=collection_name)
+
+        return collection, True, None
+
+    except Exception as e:
+        return None, False, str(e)
 
 
 def retrieve_documents(collection, query: str, n_results: int = 3,
@@ -185,16 +192,17 @@ if __name__ == "__main__":
     chroma_dir = D[one_key]["directory"]
     collection_name = D[one_key]["collection_name"]
 
-    collection = initialize_rag_system(chroma_dir=chroma_dir, collection_name=collection_name)
+    collection, _, _ = initialize_rag_system(chroma_dir=chroma_dir, collection_name=collection_name)
     print("Collection:\n", collection, "\n", type(collection))
+ 
+    if collection is not None:
+        result = retrieve_documents(collection=collection, 
+                                    query="When was applo 11 launched?")
 
-    result = retrieve_documents(collection=collection, 
-                                query="When was applo 11 launched?")
+        print("Result:\n", result, "\n", type(result))
 
-    print("Result:\n", result, "\n", type(result))
+        documents = result["documents"]
+        metadatas = result["metadatas"]
 
-    documents = result["documents"]
-    metadatas = result["metadatas"]
-
-    context = format_context(documents=documents, metadatas=metadatas)
-    print("Context:\n", type(context), context)
+        context = format_context(documents=documents, metadatas=metadatas)
+        print("Context:\n", type(context), context)

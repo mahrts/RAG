@@ -27,7 +27,8 @@ missions = {"apollo11": [
                            "109-AAG_STS-51L_Mission_Audio_transcript.txt"
                           ]
             }
-def get_data():
+
+def get_text_data():
     """Download NASA mission .txt data to local path."""
     success = True  # assume success unless something fails
 
@@ -63,5 +64,5 @@ def get_data():
     return success
 
 if __name__ == "__main__":
-    success = get_data()
+    success = get_text_data()
     print(success)
