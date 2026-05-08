@@ -52,7 +52,6 @@ streamlit run chat.py # this open the app on browser automatically
 │       └── rag_client.py #Relate rag system: documents and chromadb database.
 └── tests
     ├── test_DATA.py
-    ├── test_EMBEDDING.py
     ├── test_LLMCLIENT.py
     └── test_RAGCLIENT.py
 ```
