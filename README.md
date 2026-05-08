@@ -17,11 +17,13 @@ export OPENAI_API_KEY=<your_open_api_key> #setting your sercet api key as env va
 ```bash
 pip install -r requirements.txt && pip install -e .
 ```
+Download and save the text data (This download all the .txt files here [data_text](https://github.com/udacity/cd13318-exercises-project/tree/main/Project-NASA-Mission-Intelligence-Starter/data_text))
 ```bash
 python src/DATA/data_text.py #This will download relevant documents to retrieve from.
 ```
+Then, create and save chromadb database locally: (the following command is enough for default settings.)
 ```bash
-python src/EMBEDDiNG/embedding_pipeline.py #This cretes the local chromadb database.
+python src/EMBEDDiNG/embedding_pipeline.py python src/EMBEDDING/embedding_pipeline.py --openai-key <YOUR-API-KEY>
 ```
 Finally, the app can be opend with: (it should open here [http://localhost:8501/](http://localhost:8501/))
 ```bash
