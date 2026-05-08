@@ -1,8 +1,9 @@
 ## 🚀 NASA Intelligence Chat System
 
-A full Retrieval-Augmented Generation (RAG) pipeline built with Python that enables users to ask natural language questions about historic NASA missions using real mission transcripts and technical documents.
+A Retrieval-Augmented Generation (RAG) app: built with Python and enables users to ask questions about historic NASA missions (apollo11, apollo13 and challenger).
 
-This project combines semantic search, vector databases, large language models, and evaluation tooling to create an intelligent NASA mission assistant capable of answering questions grounded in archival mission data.
+This project combines semantic search, vector databases, LLMs, and evaluation tooling (ragas)
+to create an assistant capable of answering questions, based on archival mission data (.txt documents).
 
 ## 🔄 Installation and Usage
 This app needs an opoenAI API_KEY.
