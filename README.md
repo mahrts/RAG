@@ -64,9 +64,6 @@ streamlit run chat.py # this open the app on browser automatically
 #### Next:
 More test coverage, github action CI/CD
 
-### 🙌 Acknowledgements
-This project is part of [the Udacity Generative AI Nanodegree](https://www.udacity.com/course/generative-ai--nd608) Program.
-
 ## References: 
 
 RAG Paper: [https://arxiv.org/abs/2005.11401](https://arxiv.org/abs/2005.11401)
