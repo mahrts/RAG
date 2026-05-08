@@ -23,7 +23,9 @@ Download and save the text data (his downloads all the .txt files here: [data_te
 ```bash
 python src/DATA/data_text.py #This will download relevant documents to retrieve from.
 ```
-Then, create and save chromadb database locally: (the following command is enough for default settings.)
+Then, create and save chromadb database that corresponds to the relevant documents
+(the following command is enough for default settings.)
+
 ```bash
 python src/EMBEDDiNG/embedding_pipeline.py python src/EMBEDDING/embedding_pipeline.py --openai-key <YOUR-API-KEY>
 ```
