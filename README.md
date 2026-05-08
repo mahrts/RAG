@@ -9,12 +9,22 @@ This app needs an opoenAI API_KEY.
 One can run the app locally with the following sequence commands
 
 ```bash
-git clone https://github.com/mahrts/RAG
-cd RAG
-export OPENAI_API_KEY=<your_open_api_key> #setting your sercet api key as env varialbe 
+git clone https://github.com/mahrts/RAG && cd RAG
+```
+```bash
+export OPENAI_API_KEY=<your_open_api_key> #setting your sercet api key as env varialbe
+```
+```bash
 pip install -r requirements.txt && pip install -e .
+```
+```bash
 python src/DATA/data_text.py #This will download relevant documents to retrieve from.
+```
+```bash
 python src/EMBEDDiNG/embedding_pipeline.py #This cretes the local chromadb database.
+```
+Finally, the app can be opend with: 
+```bash
 streamlit run chat.py # this open the app on browser automatically 
 ```
 
