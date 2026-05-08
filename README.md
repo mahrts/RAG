@@ -23,7 +23,7 @@ python src/DATA/data_text.py #This will download relevant documents to retrieve 
 ```bash
 python src/EMBEDDiNG/embedding_pipeline.py #This cretes the local chromadb database.
 ```
-Finally, the app can be opend with: 
+Finally, the app can be opend with: (it should open here [http://localhost:8501/](http://localhost:8501/))
 ```bash
 streamlit run chat.py # this open the app on browser automatically 
 ```
