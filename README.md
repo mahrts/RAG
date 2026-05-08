@@ -6,7 +6,7 @@ This project combines semantic search, vector databases, LLMs, and evaluation to
 to create an assistant capable of answering questions, based on archival mission data (.txt documents).
 
 ## 🔄 Installation and Usage
-This app needs an opoenAI API_KEY.
+This app needs an openAI API_KEY.
 One can run the app locally with the following sequence commands
 
 ```bash
