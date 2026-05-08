@@ -7,9 +7,11 @@ from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
+import chromadb
 import json
 from typing import Dict, List, Optional
 import logging
+from LLMCLIENT.llm_client import generate_response
 
 # RAGAS imports
 try:
@@ -85,51 +87,64 @@ def evaluate_response_quality(question: str,
         logger.error(f"Error evaluating response with RAGAS: {e}", exc_info=True)
         return {"error": f"Evaluation failed: {str(e)}"}
 
-# def run_batch_evaluation(file_path: str = None):
-#     """Loads a JSON dataset, evaluates each row, and prints a summary."""
-#     if file_path is None:
-#         file_path = Path(__file__).parent / "test_questions.json"
+def get_concatenated_context(question: str, number_of_context: int =5):
+    """Getting context from database, given user question"""
+    db_path = Path(__file__).parent.parent.parent / "chroma_db_openai"
+    client = chromadb.PersistentClient(path=db_path)
 
-#     try:
-#         with open(file_path, 'r', encoding="utf-8") as f:
-#             data = json.load(f)
+    collection = client.get_collection(name="nasa_space_missions_text")
 
-#     except Exception as e:
-#         logger.error(f"Failed to load dataset: {e}")
-#         return
+    results = collection.query(
+        query_texts=[question],
+        n_results=number_of_context
+    )
 
-#     all_results = []
+    documents = results.get("documents", [[]])[0]
+    single_context_string = "\n\n".join(documents)
 
-#     for entry in data:
-#         q = entry.get("question")
-#         a = entry.get("answer")
+    return single_context_string
 
+def run_batch_evaluation(openai_key: str, file_path: str = None):
+    """Loads a JSON dataset, evaluates each row, and prints a summary."""
+    if file_path is None:
+        file_path = Path(__file__).parent / "test_questions.json"
 
-#         c = entry.get("context")
+    try:
+        with open(file_path, 'r', encoding="utf-8") as f:
+            data = json.load(f)
 
-#         if not q or not a or not c:
-#             logger.warning(f"Skipping malformed entry: {entry}")
-#             continue
+    except Exception as e:
+        logger.error(f"Failed to load dataset: {e}")
+        return
 
-#         logger.info(f"Evaluating category: {entry.get('category', 'unknown')}")
+    all_results = []
 
-#         # Call your existing function
-#         result = evaluate_response_quality(q, a, c)
+    for entry in data:
+        q = entry.get("question")
+        c = get_concatenated_context(q)
+        a = generate_response(openai_key, user_message=q, context=c,
+                      conversation_history={})
 
-#         if "error" not in result:
-#             result['category'] = entry.get('category')
-#             all_results.append(result)
+        if not q or not a or not c:
+            logger.warning(f"Skipping malformed entry: {entry}")
+            continue
 
-#     if not all_results:
-#         print("No successful evaluations to summarize.")
-#         return
+        logger.info("Evaluating each score...")
 
-#     # Aggregate results using Pandas
-#     df = pd.DataFrame(all_results)
+        result = evaluate_response_quality(q, a, c)
 
-#     print("\n--- PER-QUESTION SUMMARY ---")
-#     print(df[['category', 'faithfulness', 'answer_relevancy', 'bleu_score']])
+        if "error" not in result:
+            result['category'] = entry.get('category')
+            all_results.append(result)
 
-#     print("\n--- AGGREGATE METRICS (MEAN) ---")
-#     # Dropping non-numeric columns for the mean calculation
-#     print(df.select_dtypes(include=['number']).mean())
+    if not all_results:
+        print("No successful evaluations to summarize.")
+        return
+
+    df = pd.DataFrame(all_results)
+
+    logger.info("\n--- PER-QUESTION SUMMARY ---")
+    print(df[['category', 'faithfulness', 'answer_relevancy', 'bleu_score']])
+
+    logger.info("\n--- AGGREGATE METRICS (MEAN) ---")
+    print(df.select_dtypes(include=['number']).mean())
