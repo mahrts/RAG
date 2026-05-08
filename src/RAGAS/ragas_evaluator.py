@@ -85,49 +85,51 @@ def evaluate_response_quality(question: str,
         logger.error(f"Error evaluating response with RAGAS: {e}", exc_info=True)
         return {"error": f"Evaluation failed: {str(e)}"}
 
-def run_batch_evaluation(file_path: str = None):
-    """Loads a JSON dataset, evaluates each row, and prints a summary."""
-    if file_path is None:
-        file_path = Path(__file__).parent / "test_questions.json"
+# def run_batch_evaluation(file_path: str = None):
+#     """Loads a JSON dataset, evaluates each row, and prints a summary."""
+#     if file_path is None:
+#         file_path = Path(__file__).parent / "test_questions.json"
 
-    try:
-        with open(file_path, 'r', encoding="utf-8") as f:
-            data = json.load(f)
+#     try:
+#         with open(file_path, 'r', encoding="utf-8") as f:
+#             data = json.load(f)
 
-    except Exception as e:
-        logger.error(f"Failed to load dataset: {e}")
-        return
+#     except Exception as e:
+#         logger.error(f"Failed to load dataset: {e}")
+#         return
 
-    all_results = []
+#     all_results = []
 
-    for entry in data:
-        q = entry.get("question")
-        a = entry.get("answer")
-        c = entry.get("context")
+#     for entry in data:
+#         q = entry.get("question")
+#         a = entry.get("answer")
 
-        if not q or not a or not c:
-            logger.warning(f"Skipping malformed entry: {entry}")
-            continue
 
-        logger.info(f"Evaluating category: {entry.get('category', 'unknown')}")
+#         c = entry.get("context")
 
-        # Call your existing function
-        result = evaluate_response_quality(q, a, c)
+#         if not q or not a or not c:
+#             logger.warning(f"Skipping malformed entry: {entry}")
+#             continue
 
-        if "error" not in result:
-            result['category'] = entry.get('category')
-            all_results.append(result)
+#         logger.info(f"Evaluating category: {entry.get('category', 'unknown')}")
 
-    if not all_results:
-        print("No successful evaluations to summarize.")
-        return
+#         # Call your existing function
+#         result = evaluate_response_quality(q, a, c)
 
-    # Aggregate results using Pandas
-    df = pd.DataFrame(all_results)
+#         if "error" not in result:
+#             result['category'] = entry.get('category')
+#             all_results.append(result)
 
-    print("\n--- PER-QUESTION SUMMARY ---")
-    print(df[['category', 'faithfulness', 'answer_relevancy', 'bleu_score']])
+#     if not all_results:
+#         print("No successful evaluations to summarize.")
+#         return
 
-    print("\n--- AGGREGATE METRICS (MEAN) ---")
-    # Dropping non-numeric columns for the mean calculation
-    print(df.select_dtypes(include=['number']).mean())
+#     # Aggregate results using Pandas
+#     df = pd.DataFrame(all_results)
+
+#     print("\n--- PER-QUESTION SUMMARY ---")
+#     print(df[['category', 'faithfulness', 'answer_relevancy', 'bleu_score']])
+
+#     print("\n--- AGGREGATE METRICS (MEAN) ---")
+#     # Dropping non-numeric columns for the mean calculation
+#     print(df.select_dtypes(include=['number']).mean())

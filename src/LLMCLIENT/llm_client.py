@@ -16,20 +16,20 @@ def generate_response(openai_key: str, user_message: str, context: str,
 
     logger.info("Initiate prompt message, with the context")
     system_prompt = f"""
-                        You are a highly knowledgeable NASA science and space exploration expert.
+                        You are a NASA mission expert. You answer user's questions
+                        precisely, and cite retrieved sources.
 
                         Your responsibilities:
-                        - Answer the user's questions clearly, accurately, and concisely.
-                        - Use the provided CONTEXT as your primary source of truth.
-                        - If the context contains the answer, prioritize it.
-                        - If the context is incomplete, you may use general scientific knowledge.
+                        - Use the provided CONTEXT as your only source of truth.
+                        - Cite the [Source N] reference for each factual claim you make based on the context.
+                        - If the answer is not present in the CONTEXT, reply "The retrieved archives do not specify..." rather than relying on outside knowledge.
                         - If you are uncertain, explicitly say so instead of hallucinating.
                         - Maintain a professional and educational tone.
                         - Explain technical concepts in simple language when appropriate.
  
                         CONTEXT:
                         {context}
-                    """
+                    """ 
 
     logger.info("Building message list")
     messages = [

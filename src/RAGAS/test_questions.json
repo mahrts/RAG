@@ -1,38 +1,14 @@
 [
-  {
-    "category": "overview",
-    "question": "What is the primary mission objective and the expected duration of the operation?",
-    "context": ["The Odyssey mission aims to establish a lunar base. Total duration is 18 months."],
-    "answer": "The mission objective is building a lunar base over 18 months."
-  },
-  {
-    "category": "emergency",
-    "question": "What are the evacuation protocols in the event of a rapid depressurization in the habitat?",
-    "context": ["In case of depressurization, crew must move to Sector 4 and seal the airlock immediately."],
-    "answer": "The crew should immediately move to Sector 4 and engage the airlock."
-  },
-  {
-    "category": "disaster analysis",
-    "question": "What were the primary failure points identified during the last atmospheric reentry simulation?",
-    "context": ["Simulation 88-B showed thermal shield degradation and parachute deployment lag at 30k feet."],
-    "answer": "The heat shield degraded and the parachutes opened late."
-  },
-  {
-    "category": "crew",
-    "question": "What is the daily radiation exposure limit for crew members during extravehicular activities?",
-    "context": ["EVA radiation limits are set at 50 mSv per day to ensure long-term health safety."],
-    "answer": "Crew members are limited to 50 mSv of radiation per day during EVAs."
-  },
-  {
-    "category": "technical",
-    "question": "How does the life support system scrub carbon dioxide, and what is the redundancy level?",
-    "context": ["The LSS uses amine beds for CO2 removal. There are two primary and one backup unit."],
-    "answer": "It uses amine beds and has triple redundancy (two primary, one backup)."
-  },
-  {
-    "category": "timeline",
-    "question": "When is the scheduled window for the Mars transfer orbit injection?",
-    "context": ["The Mars transfer window opens on October 14th and closes on November 2nd, 2026."],
-    "answer": "The injection window is set between October 14 and November 2, 2026."
-  }
+  {"category": "overview",
+   "question": "What was the primary objective of the Apollo 11 mission?"},
+  {"category": "emergency",
+   "question": "What were the crew's first actions after the Apollo 13 oxygen tank explosion?"},
+  {"category": "disaster analysis",
+   "question": "What was the technical cause of the Challenger disaster?"},
+  {"category": "crew",
+   "question": "Who were the three Apollo 11 crew members and what were their roles?"},
+  {"category": "technical",
+   "question": "How did the Apollo 13 crew modify the CO2 scrubbers in the lunar module?"},
+  {"category": "timeline",
+   "question": "At what altitude and time after liftoff did Challenger break apart?"}
 ]
